@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from .managers import UserManager
+from core.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -20,3 +20,23 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Organization(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=255)
+    description = models.TextField()
+    location = models.CharField(max_length=255)
+
+
+class OrganizationUser(models.Model):
+    ROLES = (
+        ("OWNER", "Owner"),
+        ("ADMIN", "Admin"),
+        ("MANAGER", "Manager"),
+        ("HR", "HR"),
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    role = models.CharField(max_length=255, choices=ROLES)

@@ -13,10 +13,10 @@ class UserAdmin(UserAdmin):
         "is_active",
     )
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("name", "email", "password")}),
         (
             "Permissions",
-            {"fields": ("is_staff", "is_active", "groups", "user_permissions")},
+            {"fields": ("is_staff", "is_active")},
         ),
     )
     add_fieldsets = (
@@ -25,13 +25,13 @@ class UserAdmin(UserAdmin):
             {
                 "classes": ("wide",),
                 "fields": (
+                    "name",
                     "email",
                     "password1",
                     "password2",
+                    "phone",
                     "is_staff",
                     "is_active",
-                    "groups",
-                    "user_permissions",
                 ),
             },
         ),
