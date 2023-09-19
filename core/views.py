@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from rest_framework import generics
 from core.models import OrganizationUser
 from core.serializer import UserSerializer, OrganizationUserSerializer
+from rest_framework.permissions import IsAuthenticated
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -9,5 +9,5 @@ class CreateUserView(generics.CreateAPIView):
 
 
 class OrganizationUserView(generics.CreateAPIView):
-    queryset = OrganizationUser.objects.all()
     serializer_class = OrganizationUserSerializer
+    permission_classes = [IsAuthenticated]

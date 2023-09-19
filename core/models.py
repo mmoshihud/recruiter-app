@@ -29,6 +29,9 @@ class Organization(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class OrganizationUser(models.Model):
     ROLES = (
@@ -40,3 +43,6 @@ class OrganizationUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     role = models.CharField(max_length=255, choices=ROLES)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.role} at {self.organization}"
