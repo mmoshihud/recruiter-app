@@ -30,3 +30,9 @@ class OrganizationUserSerializer(serializers.ModelSerializer):
             user=user, organization=organization, **validated_data
         )
         return organization_user
+
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = "__all__"
