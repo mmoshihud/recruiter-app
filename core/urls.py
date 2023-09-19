@@ -7,5 +7,5 @@ urlpatterns = [
     path("token/", obtain_auth_token),
     path("we/user/create/", OrganizationUserView.as_view()),
     path("we/create/", OrganizationCreateView.as_view()),
-    path("we/<int:pk>", OrganizationDetailView.as_view()),
+    path("we/<int:pk>/", OrganizationDetailView.as_view()),
 ]

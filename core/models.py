@@ -24,7 +24,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Organization(models.Model):
     name = models.CharField(max_length=255)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     phone = models.CharField(max_length=255)
     description = models.TextField()
     location = models.CharField(max_length=255)
