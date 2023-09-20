@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext as _
+
+from core.choices import RoleChoices
 from core.managers import UserManager
 
 
@@ -36,15 +38,9 @@ class Organization(models.Model):
 
 
 class OrganizationUser(models.Model):
-    ROLES = (
-        ("OWNER", "Owner"),
-        ("ADMIN", "Admin"),
-        ("MANAGER", "Manager"),
-        ("HR", "Hr"),
-    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    role = models.CharField(max_length=255, choices=ROLES)
+    role = models.CharField(max_length=10, choices=RoleChoices.choices)
 
     def __str__(self):
         return f"{self.user.email} - {self.role} at {self.organization}"

@@ -1,4 +1,5 @@
 from rest_framework import generics
+
 from core.models import Organization
 from core.serializer import (
     OrganizationSerializer,

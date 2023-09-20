@@ -1,4 +1,5 @@
 from rest_framework import generics
+
 from job.models import Application, Job, Offer
 from job.serializer import ApplicationSerializer, JobSerializer, OfferSerializer
 
