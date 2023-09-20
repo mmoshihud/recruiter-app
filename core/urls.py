@@ -9,5 +9,5 @@ urlpatterns = [
     path("token/", CustomAuthToken.as_view()),
     path("we/register/", views.OrganizationUserCreateView.as_view()),
     path("we/", views.OrganizationListCreateView.as_view()),
-    path("we/<int:pk>/", views.OrganizationDetailView.as_view()),
+    path("we/<uuid:uuid>/", views.OrganizationDetailView.as_view()),
 ]
