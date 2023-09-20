@@ -5,19 +5,17 @@ from core.serializer import (
     UserSerializer,
     OrganizationUserSerializer,
 )
-from rest_framework.permissions import IsAuthenticated
 
 
 class UserCreateView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-class OrganizationUserView(generics.CreateAPIView):
+class OrganizationUserCreateView(generics.CreateAPIView):
     serializer_class = OrganizationUserSerializer
-    permission_classes = [IsAuthenticated]
 
 
-class OrganizationCreateView(generics.ListCreateAPIView):
+class OrganizationListCreateView(generics.ListCreateAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 

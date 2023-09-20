@@ -40,6 +40,6 @@ class UserAdmin(UserAdmin):
     ordering = ("email",)
 
 
-admin.site.register(User, UserAdmin)
-admin.site.register(Organization)
-admin.site.register(OrganizationUser)
+# admin.site.register(User, UserAdmin)
+# admin.site.register(Organization)
+# admin.site.register(OrganizationUser)

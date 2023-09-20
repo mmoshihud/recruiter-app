@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext as _
 from core.managers import UserManager
 
@@ -11,7 +10,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=255)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -28,6 +28,8 @@ class Organization(models.Model):
     phone = models.CharField(max_length=255)
     description = models.TextField()
     location = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -38,7 +40,7 @@ class OrganizationUser(models.Model):
         ("OWNER", "Owner"),
         ("ADMIN", "Admin"),
         ("MANAGER", "Manager"),
-        ("HR", "HR"),
+        ("HR", "Hr"),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)

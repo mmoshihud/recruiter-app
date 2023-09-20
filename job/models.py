@@ -14,6 +14,8 @@ class Job(models.Model):
     expiration_date = models.DateTimeField(default=timezone.now)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     job_poster = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -26,6 +28,8 @@ class Application(models.Model):
     email = models.EmailField(unique=True)
     resume_url = models.URLField(max_length=200)
     application_date = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Offer(models.Model):
@@ -34,3 +38,5 @@ class Offer(models.Model):
     offer_date = models.DateTimeField(default=timezone.now)
     offer_accepted = models.BooleanField()
     start_date = models.DateField()
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
