@@ -5,9 +5,8 @@ from core.auth import CustomAuthToken
 
 
 urlpatterns = [
-    path("register/", views.UserCreateView.as_view()),
-    path("token/", CustomAuthToken.as_view()),
-    path("we/register/", views.OrganizationUserCreateView.as_view()),
-    path("we/", views.OrganizationListCreateView.as_view()),
-    path("we/<uuid:uuid>/", views.OrganizationDetailView.as_view()),
+    path("/token", CustomAuthToken.as_view()),
+    path("/registration", views.UserCreateView.as_view()),
+    path("/organizations", views.OrganizationListCreateView.as_view()),
+    path("/organizations/<int:pk>", views.OrganizationDetailView.as_view()),
 ]

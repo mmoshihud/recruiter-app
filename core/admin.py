@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from core.models import Organization, OrganizationUser, User
+from core.models import User
+from organization.models import Organization, OrganizationUser
 
 
 class UserAdmin(UserAdmin):
     model = User
-    list_display = ("email", "is_staff", "is_active", "date_joined")
+    list_display = ("email", "is_staff", "is_active", "created_at")
     list_filter = (
         "email",
         "is_staff",
@@ -40,6 +41,6 @@ class UserAdmin(UserAdmin):
     ordering = ("email",)
 
 
-admin.site.register(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Organization)
 admin.site.register(OrganizationUser)

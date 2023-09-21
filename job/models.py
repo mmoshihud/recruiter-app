@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
-from core.models import Organization, User
+from core.models import User
+from organization.models import Organization
 import uuid
 
 
@@ -45,3 +46,12 @@ class Offer(models.Model):
     start_date = models.DateField()
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+# class Feedback(models.Model):
+#     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+#     recruiter = models.ForeignKey(User, on_delete=models.CASCADE)
+#     candidate = models.ForeignKey(User, on_delete=models.CASCADE)
+#     feedback_date = models.DateTimeField()
+#     feedback_description = models.TextField()
+#     feedback_rating = models.DecimalField(max_digits=3, decimal_places=1)

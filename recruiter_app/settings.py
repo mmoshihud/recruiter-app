@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "job",
+    "organization",
 ]
 
 MIDDLEWARE = [
@@ -135,4 +136,4 @@ REST_FRAMEWORK = {
     ]
 }
 
-# APPEND_SLASH = False
+APPEND_SLASH = False
