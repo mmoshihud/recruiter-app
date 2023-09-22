@@ -24,3 +24,4 @@ class OrganizationDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class OrganizationOnboardView(generics.CreateAPIView):
     serializer_class = OrganizationSerializer
+    permission_classes = [IsSuperAdmin]

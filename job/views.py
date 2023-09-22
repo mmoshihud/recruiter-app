@@ -8,13 +8,13 @@ from job.serializer import ApplicationSerializer, JobSerializer, OfferSerializer
 class JobListCreateView(generics.ListCreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    # permission_classes = [IsOwnerAdminPermission]
+    permission_classes = [IsOwnerAdminPermission]
 
 
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    # permission_classes = [IsOwnerAdminPermission]
+    permission_classes = [IsOwnerAdminPermission]
 
 
 class ApplicationListCreateView(generics.ListCreateAPIView):
