@@ -20,3 +20,7 @@ class OrganizationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
     permission_classes = [IsSuperAdmin]
+
+
+class OrganizationOnboardView(generics.CreateAPIView):
+    serializer_class = OrganizationSerializer

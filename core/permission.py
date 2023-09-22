@@ -16,7 +16,7 @@ class IsOrganizationMember(permissions.BasePermission):
         user = request.user
         if user.is_authenticated:
             return user.organizationuser_set.filter(
-                roll__in=["OWNER", "ADMIN", "MANAGER", "HR"]
+                role__in=["OWNER", "ADMIN", "MANAGER", "HR"]
             ).exists()
         return False
 
