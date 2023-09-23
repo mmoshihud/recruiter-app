@@ -1,6 +1,6 @@
 from rest_framework import generics
-from core.permission import IsOwnerAdminPermission
 
+from core.permission import IsOwnerAdminPermission
 from job.models import Application, Job, Offer
 from job.serializer import ApplicationSerializer, JobSerializer, OfferSerializer
 

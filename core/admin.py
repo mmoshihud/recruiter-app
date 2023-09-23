@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from core.models import User
+from job.models import Application, Job
 from organization.models import Organization, OrganizationUser
 
 
@@ -44,3 +45,5 @@ class UserAdmin(UserAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Organization)
 admin.site.register(OrganizationUser)
+admin.site.register(Job)
+admin.site.register(Application)

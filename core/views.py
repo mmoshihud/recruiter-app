@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 from organization.models import Organization
 from core.permission import IsSuperAdmin
@@ -13,7 +14,11 @@ class UserCreateView(generics.CreateAPIView):
 class OrganizationListCreateView(generics.ListCreateAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
-    permission_classes = [IsSuperAdmin]
+
+    def get_permissions(self):
+        if self.request.method == "POST":
+            return [IsSuperAdmin()]
+        return [IsAuthenticated()]
 
 
 class OrganizationDetailView(generics.RetrieveUpdateDestroyAPIView):
