@@ -18,7 +18,7 @@ class OrganizationDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrganizationSerializer
 
 
-class OrganizationJobList(generics.ListCreateAPIView):
+class OrganizationJobList(generics.ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
 

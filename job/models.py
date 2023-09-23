@@ -51,10 +51,10 @@ class Offer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-# class Feedback(models.Model):
-#     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-#     recruiter = models.ForeignKey(User, on_delete=models.CASCADE)
-#     candidate = models.ForeignKey(User, on_delete=models.CASCADE)
-#     feedback_date = models.DateTimeField()
-#     feedback_description = models.TextField()
-#     feedback_rating = models.DecimalField(max_digits=3, decimal_places=1)
+class Feedback(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    feedback_description = models.TextField()
+    feedback_rating = models.DecimalField(max_digits=2, decimal_places=1)
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)

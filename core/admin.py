@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from core.models import User
-from job.models import Application, Job
+from job.models import Application, Feedback, Job
 from organization.models import Organization, OrganizationUser
 
 
@@ -47,3 +47,4 @@ admin.site.register(Organization)
 admin.site.register(OrganizationUser)
 admin.site.register(Job)
 admin.site.register(Application)
+admin.site.register(Feedback)

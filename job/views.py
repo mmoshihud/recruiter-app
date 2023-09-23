@@ -1,8 +1,13 @@
 from rest_framework import generics
 
 from core.permission import IsOwnerAdminPermission
-from job.models import Application, Job, Offer
-from job.serializer import ApplicationSerializer, JobSerializer, OfferSerializer
+from job.models import Application, Feedback, Job, Offer
+from job.serializer import (
+    ApplicationSerializer,
+    FeedbackSerializer,
+    JobSerializer,
+    OfferSerializer,
+)
 
 
 class JobListCreateView(generics.ListCreateAPIView):
@@ -17,6 +22,21 @@ class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerAdminPermission]
 
 
+class AppliedJobsView(generics.ListAPIView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+
+
+class ApplicantFeedback(generics.CreateAPIView):
+    serializer_class = ApplicationSerializer
+
+
+class FeedbackListCreateView(generics.ListCreateAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+
+
+""" 
 class ApplicationListCreateView(generics.ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
@@ -35,3 +55,4 @@ class OfferListCreateView(generics.ListCreateAPIView):
 class OfferDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Offer.objects.all()
     serializer_class = OfferSerializer
+"""
