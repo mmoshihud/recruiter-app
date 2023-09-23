@@ -15,6 +15,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "user",
             "role",
             "uuid",
+            "name",
             "email",
             "phone",
             "description",

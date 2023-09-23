@@ -40,17 +40,6 @@ class Application(models.Model):
         return self.name
 
 
-class Offer(models.Model):
-    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    applicant = models.ForeignKey(User, on_delete=models.CASCADE)
-    offer_date = models.DateTimeField(default=timezone.now)
-    offer_accepted = models.BooleanField()
-    start_date = models.DateField()
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
 class Feedback(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     application = models.ForeignKey(Application, on_delete=models.CASCADE)

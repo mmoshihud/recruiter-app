@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from core.models import User
+from core.serializer import UserSerializer
 
-from job.models import Application, Feedback, Job, Offer
+from job.models import Application, Feedback, Job
 
 
 class JobSerializer(serializers.ModelSerializer):
@@ -11,9 +12,11 @@ class JobSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
+    user_data = UserSerializer(read_only=True)
+
     class Meta:
         model = Application
-        fields = fields = ["name", "email", "resume_url"]
+        fields = fields = ["user_data", "name", "email", "resume_url"]
 
     def create(self, validated_data):
         job_id = self.context["view"].kwargs.get("job_id")
@@ -30,11 +33,11 @@ class ApplicationSerializer(serializers.ModelSerializer):
         )
         return application
 
-
-class OfferSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Offer
-        fields = "__all__"
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        user_data = UserSerializer(instance.applicant).data
+        data["user_data"] = user_data
+        return data
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
@@ -43,18 +46,21 @@ class FeedbackSerializer(serializers.ModelSerializer):
         fields = ["feedback_description", "feedback_rating"]
 
     def create(self, validated_data):
-        application_id = self.context["view"].kwargs.get("feed_id")
+        application_id = self.context["view"].kwargs.get("app_id")
         feedback = Feedback.objects.create(
             application_id=application_id, **validated_data
         )
         return feedback
 
     def validate(self, data):
-        # Get the application for which feedback is being created
-        application_id = self.context["view"].kwargs.get("feed_id")
-        application = self.get_application(application_id)
+        application_id = self.context["view"].kwargs.get("app_id")
+        try:
+            application = Application.objects.get(id=application_id)
+        except Application.DoesNotExist:
+            raise serializers.ValidationError(
+                "Application with this ID does not exist."
+            )
 
-        # Check if feedback already exists for the same applicant and application
         existing_feedback = Feedback.objects.filter(
             application=application,
             application__applicant=application.applicant,
@@ -66,11 +72,3 @@ class FeedbackSerializer(serializers.ModelSerializer):
             )
 
         return data
-
-    def get_application(self, application_id):
-        try:
-            return Application.objects.get(id=application_id)
-        except Application.DoesNotExist:
-            raise serializers.ValidationError(
-                "Application with this ID does not exist."
-            )

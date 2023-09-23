@@ -5,10 +5,6 @@ from job import views
 urlpatterns = [
     path("", views.JobListCreateView.as_view()),
     path("/<int:pk>", views.JobDetailView.as_view()),
-    path("/applicant", views.AppliedJobsView.as_view()),
-    path("/applicant/feedback/<int:feed_id>", views.FeedbackListCreateView.as_view()),
-    # path("/application", views.ApplicationListCreateView.as_view()),
-    # path("/application/<int:ok>", views.ApplicationDetailView.as_view()),
-    # path("/offer/", views.OfferListCreateView.as_view()),
-    # path("/offer/<int:pk>", views.OfferDetailView.as_view()),
+    path("/application", views.AppliedJobsView.as_view()),
+    path("/application/feedback/<int:app_id>", views.FeedbackListCreateView.as_view()),
 ]
