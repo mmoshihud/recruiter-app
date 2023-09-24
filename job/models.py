@@ -47,3 +47,6 @@ class Feedback(models.Model):
     feedback_rating = models.DecimalField(max_digits=2, decimal_places=1)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.application.applicant.name} - Applied at {self.application.job.organization} in {self.application.job.title} Position"

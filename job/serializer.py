@@ -41,9 +41,11 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
+    application_data = ApplicationSerializer(read_only=True)
+
     class Meta:
         model = Feedback
-        fields = ["feedback_description", "feedback_rating"]
+        fields = ["application_data", "feedback_description", "feedback_rating"]
 
     def create(self, validated_data):
         application_id = self.context["view"].kwargs.get("app_id")
@@ -71,4 +73,10 @@ class FeedbackSerializer(serializers.ModelSerializer):
                 "Feedback for this application by the same applicant already exists."
             )
 
+        return data
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        application_data = ApplicationSerializer(instance.application).data
+        data["application_data"] = application_data
         return data
