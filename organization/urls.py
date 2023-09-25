@@ -5,5 +5,5 @@ from organization import views
 
 urlpatterns = [
     path("/users", views.OrganizationUserCreateView.as_view()),
-    path("/users/<int:pk>", views.OrganizationUserDetailView.as_view()),
+    path("/users/<uuid:uuid>", views.OrganizationUserDetailView.as_view()),
 ]

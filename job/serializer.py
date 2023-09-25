@@ -3,6 +3,7 @@ from core.models import User
 from core.serializer import UserSerializer
 
 from job.models import Application, Feedback, Job
+import uuid
 
 
 class JobSerializer(serializers.ModelSerializer):
@@ -16,20 +17,25 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        fields = fields = ["user_data", "name", "email", "resume_url"]
+        fields = "__all__"
 
     def create(self, validated_data):
-        job_id = self.context["view"].kwargs.get("job_id")
+        job_uuid = self.context["request"].parser_context.get("kwargs").get("job_uuid")
         user = self.context["request"].user
 
         existing_application = Application.objects.filter(
-            job_id=job_id, applicant=user
+            job__uuid=job_uuid, applicant=user
         ).first()
         if existing_application:
             raise serializers.ValidationError("You have already applied for this job.")
 
+        try:
+            job = Job.objects.get(uuid=job_uuid)
+        except Job.DoesNotExist:
+            raise serializers.ValidationError("Job does not exist.")
+
         application = Application.objects.create(
-            job_id=job_id, applicant=user, **validated_data
+            job=job, applicant=user, **validated_data
         )
         return application
 
@@ -45,19 +51,27 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feedback
-        fields = ["application_data", "feedback_description", "feedback_rating"]
+        fields = ["feedback_description", "feedback_rating", "application_data"]
+        # fields = "__all__"
 
     def create(self, validated_data):
-        application_id = self.context["view"].kwargs.get("app_id")
-        feedback = Feedback.objects.create(
-            application_id=application_id, **validated_data
+        application_uuid = (
+            self.context["request"].parser_context.get("kwargs").get("application_uuid")
         )
+        application = Application.objects.get(uuid=application_uuid)
+        feedback = Feedback.objects.create(application=application, **validated_data)
         return feedback
 
     def validate(self, data):
-        application_id = self.context["view"].kwargs.get("app_id")
+        print(self.context["request"].parser_context)
+
+        application_uuid = (
+            self.context["request"].parser_context.get("kwargs").get("application_uuid")
+        )
+
         try:
-            application = Application.objects.get(id=application_id)
+            application = Application.objects.get(uuid=application_uuid)
+            print("app", application)
         except Application.DoesNotExist:
             raise serializers.ValidationError(
                 "Application with this ID does not exist."

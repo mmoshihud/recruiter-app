@@ -21,4 +21,5 @@ class OrganizationUserCreateView(generics.ListCreateAPIView):
 class OrganizationUserDetailView(generics.RetrieveUpdateAPIView):
     queryset = OrganizationUser.objects.all()
     serializer_class = OrganizationUserUpdateSerializer
-    permission_classes = [IsOwnerAdminPermission]
+    lookup_field = "uuid"
+    # permission_classes = [IsOwnerAdminPermission]

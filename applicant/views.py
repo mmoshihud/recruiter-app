@@ -4,8 +4,6 @@ from job.models import Job
 from organization.serializer import OrganizationSerializer
 from job.serializer import ApplicationSerializer, JobSerializer
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status
 
 
 class OrganizationList(generics.ListAPIView):
@@ -23,8 +21,9 @@ class OrganizationJobList(generics.ListAPIView):
     serializer_class = JobSerializer
 
     def get_queryset(self):
-        organization_pk = self.kwargs.get("pk")
-        return Job.objects.filter(organization_id=organization_pk)
+        organization_uuid = self.kwargs.get("organization_uuid")
+        organization = Organization.objects.get(uuid=organization_uuid)
+        return Job.objects.filter(organization_id=organization)
 
 
 class ApplyForJob(generics.CreateAPIView):

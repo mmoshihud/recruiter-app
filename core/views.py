@@ -26,6 +26,11 @@ class OrganizationDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrganizationSerializer
     permission_classes = [IsSuperAdmin]
 
+    def get_object(self):
+        uuid = self.kwargs.get("organization_uuid")
+        object = self.queryset.get(uuid=uuid)
+        return object
+
 
 class OrganizationOnboardView(generics.CreateAPIView):
     serializer_class = OrganizationSerializer

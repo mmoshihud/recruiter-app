@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 
 from core.permission import IsOrganizationMember, IsOwnerAdminPermission
@@ -19,6 +20,7 @@ class JobListCreateView(generics.ListCreateAPIView):
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+    lookup_field = "uuid"
     permission_classes = [IsOwnerAdminPermission]
 
 
@@ -32,17 +34,10 @@ class AppliedJobsView(generics.ListAPIView):
 
         if organization_user:
             organization = organization_user.organization
-
-            users_in_organization = OrganizationUser.objects.filter(
-                organization=organization
-            )
-            user_objects = [
-                organization_user.user for organization_user in users_in_organization
-            ]
-            queryset = Application.objects.filter(applicant__in=user_objects)
+            job = get_object_or_404(Job, organization=organization)
+            queryset = Application.objects.filter(job=job)
         else:
             queryset = Application.objects.none()
-
         return queryset
 
 

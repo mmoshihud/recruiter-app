@@ -39,7 +39,7 @@ class OrganizationUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizationUser
-        fields = ["user", "role", "organization"]
+        fields = ["uuid", "role", "user", "organization"]
 
     def create(self, validated_data):
         user = self.context["request"].user
