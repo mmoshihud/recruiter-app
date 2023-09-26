@@ -58,6 +58,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             "name",
             "email",
             "resume_url",
+            "user_data",
             "application_date",
             "created_at",
             "updated_at",

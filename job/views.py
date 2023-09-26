@@ -45,8 +45,8 @@ class AppliedJobsView(generics.ListAPIView):
 
         if organization_user:
             organization = organization_user.organization
-            job = get_object_or_404(Job, organization=organization)
-            queryset = Application.objects.filter(job=job)
+            jobs = Job.objects.filter(organization=organization)
+            queryset = Application.objects.filter(job__in=jobs)
         else:
             queryset = Application.objects.none()
         return queryset
