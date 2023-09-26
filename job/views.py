@@ -14,7 +14,11 @@ from organization.models import OrganizationUser
 class JobListCreateView(generics.ListCreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [IsOwnerAdminPermission]
+
+    def get_permissions(self):
+        if self.request.method == "POST":
+            return [IsOwnerAdminPermission()]
+        return [IsOrganizationMember()]
 
 
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -22,6 +26,13 @@ class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = JobSerializer
     lookup_field = "uuid"
     permission_classes = [IsOwnerAdminPermission]
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [IsOrganizationMember()]
+        elif self.request.method in ("PUT", "PATCH", "DELETE"):
+            return [IsOwnerAdminPermission()]
+        return super().get_permissions()
 
 
 class AppliedJobsView(generics.ListAPIView):
@@ -41,10 +52,7 @@ class AppliedJobsView(generics.ListAPIView):
         return queryset
 
 
-class ApplicantFeedback(generics.CreateAPIView):
-    serializer_class = ApplicationSerializer
-
-
 class FeedbackListCreateView(generics.ListCreateAPIView):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
+    permission_classes = [IsOrganizationMember]

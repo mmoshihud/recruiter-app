@@ -8,7 +8,7 @@ from organization.serializer import (
 )
 
 
-class OrganizationUserCreateView(generics.ListCreateAPIView):
+class OrganizationUserListCreateView(generics.ListCreateAPIView):
     queryset = OrganizationUser.objects.all()
     serializer_class = OrganizationUserSerializer
 
@@ -22,4 +22,11 @@ class OrganizationUserDetailView(generics.RetrieveUpdateAPIView):
     queryset = OrganizationUser.objects.all()
     serializer_class = OrganizationUserUpdateSerializer
     lookup_field = "uuid"
-    # permission_classes = [IsOwnerAdminPermission]
+    permission_classes = [IsOwnerAdminPermission]
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [IsOrganizationMember()]
+        elif self.request.method == "PUT" or self.request.method == "PATCH":
+            return [IsOwnerAdminPermission()]
+        return super().get_permissions()

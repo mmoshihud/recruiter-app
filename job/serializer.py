@@ -1,15 +1,49 @@
 from rest_framework import serializers
-from core.models import User
 from core.serializer import UserSerializer
 
 from job.models import Application, Feedback, Job
 import uuid
 
+from organization.models import Organization, OrganizationUser
+from organization.serializer import OrganizationSerializer
+
 
 class JobSerializer(serializers.ModelSerializer):
+    job_poster = UserSerializer(read_only=True)
+    organization = OrganizationSerializer(read_only=True)
+
     class Meta:
         model = Job
-        fields = "__all__"
+        fields = [
+            "uuid",
+            "title",
+            "vacancy",
+            "location",
+            "description",
+            "requirements",
+            "salary",
+            "posting_date",
+            "expiration_date",
+            "job_poster",
+            "organization",
+            "created_at",
+            "updated_at",
+        ]
+
+    def create(self, validated_data):
+        user = self.context["request"].user
+        organization = Organization.objects.filter(organizationuser__user=user).first()
+
+        if not organization:
+            raise serializers.ValidationError(
+                "User is not associated with any organization."
+            )
+
+        validated_data["organization"] = organization
+        validated_data["job_poster"] = user
+
+        job = Job.objects.create(**validated_data)
+        return job
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -17,7 +51,17 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        fields = "__all__"
+        fields = [
+            "uuid",
+            "job",
+            "applicant",
+            "name",
+            "email",
+            "resume_url",
+            "application_date",
+            "created_at",
+            "updated_at",
+        ]
 
     def create(self, validated_data):
         job_uuid = self.context["request"].parser_context.get("kwargs").get("job_uuid")
@@ -51,8 +95,15 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feedback
-        fields = ["feedback_description", "feedback_rating", "application_data"]
-        # fields = "__all__"
+        fields = [
+            "uuid",
+            "application",
+            "feedback_description",
+            "feedback_rating",
+            "created_at",
+            "updated_at",
+            "application_data",
+        ]
 
     def create(self, validated_data):
         application_uuid = (

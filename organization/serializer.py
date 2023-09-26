@@ -12,8 +12,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = [
-            "user",
-            "role",
             "uuid",
             "name",
             "email",
@@ -22,6 +20,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "location",
             "created_at",
             "updated_at",
+            "user",
+            "role",
         ]
 
     def create(self, validated_data):
