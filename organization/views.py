@@ -22,7 +22,6 @@ class OrganizationUserDetailView(generics.RetrieveUpdateAPIView):
     queryset = OrganizationUser.objects.all()
     serializer_class = OrganizationUserUpdateSerializer
     lookup_field = "uuid"
-    permission_classes = [IsOwnerAdminPermission]
 
     def get_permissions(self):
         if self.request.method == "GET":

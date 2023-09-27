@@ -8,7 +8,7 @@ from job.serializer import (
     FeedbackSerializer,
     JobSerializer,
 )
-from organization.models import OrganizationUser
+from organization.models import Organization, OrganizationUser
 
 
 class JobListCreateView(generics.ListCreateAPIView):
@@ -19,6 +19,14 @@ class JobListCreateView(generics.ListCreateAPIView):
         if self.request.method == "POST":
             return [IsOwnerAdminPermission()]
         return [IsOrganizationMember()]
+
+    def get_queryset(self):
+        user = self.request.user
+        organization = Organization.objects.filter(organizationuser__user=user).first()
+
+        if organization:
+            return Job.objects.filter(organization=organization)
+        return Job.objects.none()
 
 
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):

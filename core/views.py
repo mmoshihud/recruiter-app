@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from organization.models import Organization
 from core.permission import IsSuperAdmin
 from core.serializer import UserSerializer
-from organization.serializer import OrganizationSerializer
+from organization.serializer import OrganizationCreateSerializer, OrganizationSerializer
 
 
 class UserCreateView(generics.CreateAPIView):
@@ -13,7 +13,7 @@ class UserCreateView(generics.CreateAPIView):
 
 class OrganizationListCreateView(generics.ListCreateAPIView):
     queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
+    serializer_class = OrganizationCreateSerializer
 
     def get_permissions(self):
         if self.request.method == "POST":
@@ -23,7 +23,7 @@ class OrganizationListCreateView(generics.ListCreateAPIView):
 
 class OrganizationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
+    serializer_class = OrganizationCreateSerializer
     permission_classes = [IsSuperAdmin]
 
     def get_object(self):

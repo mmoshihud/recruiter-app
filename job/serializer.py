@@ -53,8 +53,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
         model = Application
         fields = [
             "uuid",
-            "job",
-            "applicant",
             "name",
             "email",
             "resume_url",
@@ -89,6 +87,10 @@ class ApplicationSerializer(serializers.ModelSerializer):
         user_data = UserSerializer(instance.applicant).data
         data["user_data"] = user_data
         return data
+
+
+class JobApplicationSerializer(serializers.ModelSerializer):
+    data = "data"
 
 
 class FeedbackSerializer(serializers.ModelSerializer):

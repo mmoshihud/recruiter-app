@@ -5,6 +5,21 @@ from core.serializer import UserSerializer
 from organization.models import OrganizationUser, Organization
 
 
+class OrganizationCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = [
+            "uuid",
+            "name",
+            "email",
+            "phone",
+            "description",
+            "location",
+            "created_at",
+            "updated_at",
+        ]
+
+
 class OrganizationSerializer(serializers.ModelSerializer):
     user = UserSerializer(write_only=True)
     role = serializers.CharField(write_only=True)
