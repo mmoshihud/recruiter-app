@@ -1,8 +1,8 @@
 from django.urls import path
 
-from applicant import views
+from me.rest.views import job
 
 
 urlpatterns = [
-    path("/jobs/<uuid:job_uuid>/apply", views.ApplyForJob.as_view()),
+    path("/jobs/<uuid:job_uuid>/apply", job.ApplyForJob.as_view()),
 ]
