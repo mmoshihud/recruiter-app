@@ -20,8 +20,8 @@ urlpatterns = [
         name="redoc",
     ),
     path("auth", include("rest_framework.urls")),
-    path("api/auth", include("core.urls")),
     path("admin", admin.site.urls),
+    path("api/auth", include("core.rest.urls")),
     path("api/we", include("organization.rest.urls")),
-    path("api/me", include("applicant.urls")),
+    path("api/me", include("me.rest.urls")),
 ]
