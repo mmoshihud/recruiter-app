@@ -27,9 +27,3 @@ class OrganizationUser(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.role} at {self.organization}"
-
-
-# class SelectedCandidate(models.Model):
-#     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)

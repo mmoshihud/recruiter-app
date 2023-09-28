@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from organization.models import OrganizationUser
+
 
 class IsOwnerAdminPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -27,3 +29,9 @@ class IsSuperAdmin(permissions.BasePermission):
         if user.is_authenticated:
             return user.is_superuser
         return False
+
+
+class IsNotOrganizationUser(permissions.BasePermission):
+    def has_permission(self, request, view):
+        user = request.user
+        return not OrganizationUser.objects.filter(user=user).exists()
