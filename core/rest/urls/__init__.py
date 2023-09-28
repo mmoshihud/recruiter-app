@@ -1,7 +1,7 @@
 from django.urls import path
 
-from core import views
-from core.auth import CustomAuthToken
+from core.rest import views
+from core.rest.auth import CustomAuthToken
 
 
 urlpatterns = [

@@ -1,13 +1,13 @@
 from django.urls import path
 
-from job import views
+from organization.rest.views import job
 
 urlpatterns = [
-    path("", views.JobListCreateView.as_view()),
-    path("/<uuid:uuid>", views.JobDetailView.as_view()),
-    path("/applications", views.AppliedJobsView.as_view()),
+    path("", job.JobListCreateView.as_view()),
+    path("/<uuid:uuid>", job.JobDetailView.as_view()),
+    path("/applications", job.AppliedJobsView.as_view()),
     path(
         "/applications/<uuid:application_uuid>/feedback",
-        views.FeedbackListCreateView.as_view(),
+        job.FeedbackListCreateView.as_view(),
     ),
 ]

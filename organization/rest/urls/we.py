@@ -1,9 +1,9 @@
 from django.urls import path
 
-from organization import views
+from organization.rest.views import we
 
 
 urlpatterns = [
-    path("/users", views.OrganizationUserListCreateView.as_view()),
-    path("/users/<uuid:uuid>", views.OrganizationUserDetailView.as_view()),
+    path("/users", we.OrganizationUserListCreateView.as_view()),
+    path("/users/<uuid:uuid>", we.OrganizationUserDetailView.as_view()),
 ]

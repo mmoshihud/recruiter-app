@@ -1,8 +1,8 @@
 from rest_framework import generics
 from organization.models import Organization
 from job.models import Job
-from organization.serializer import OrganizationSerializer
-from job.serializer import JobSerializer
+from organization.rest.serializers import OrganizationSerializer
+from organization.rest.serializers import JobSerializer
 from rest_framework.permissions import IsAuthenticated
 
 

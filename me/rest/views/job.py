@@ -1,6 +1,6 @@
 from rest_framework import generics
 
-from job.serializer import ApplicationSerializer
+from organization.rest.serializers import ApplicationSerializer
 from rest_framework.permissions import IsAuthenticated
 
 

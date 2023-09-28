@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 
-from core.permission import IsOrganizationMember, IsOwnerAdminPermission
+from core.rest.permission import IsOrganizationMember, IsOwnerAdminPermission
 from job.models import Application, Feedback, Job
-from job.serializer import (
+from organization.rest.serializers import (
     ApplicationSerializer,
     FeedbackSerializer,
     JobSerializer,
