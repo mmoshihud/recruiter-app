@@ -24,6 +24,6 @@ class OrganizationJobList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        organization_uuid = self.kwargs.get("organization_uuid")
-        organization = Organization.objects.get(uuid=organization_uuid)
+        organization_uid = self.kwargs.get("organization_uid")
+        organization = Organization.objects.get(uuid=organization_uid)
         return Job.objects.filter(organization_id=organization)

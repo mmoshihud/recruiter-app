@@ -30,8 +30,8 @@ class OrganizationDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsSuperAdmin]
 
     def get_object(self):
-        uuid = self.kwargs.get("organization_uuid")
-        object = self.queryset.get(uuid=uuid)
+        uid = self.kwargs.get("organization_uid")
+        object = self.queryset.get(uuid=uid)
         return object
 
 

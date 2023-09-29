@@ -122,17 +122,17 @@ class ApplicationSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        job_uuid = self.context["request"].parser_context.get("kwargs").get("job_uuid")
+        job_uid = self.context["request"].parser_context.get("kwargs").get("job_uid")
         user = self.context["request"].user
 
         existing_application = Application.objects.filter(
-            job__uuid=job_uuid, applicant=user
+            job__uuid=job_uid, applicant=user
         ).first()
         if existing_application:
             raise serializers.ValidationError("You have already applied for this job.")
 
         try:
-            job = Job.objects.get(uuid=job_uuid)
+            job = Job.objects.get(uuid=job_uid)
         except Job.DoesNotExist:
             raise serializers.ValidationError("Job does not exist.")
 
@@ -168,23 +168,20 @@ class FeedbackSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        application_uuid = (
-            self.context["request"].parser_context.get("kwargs").get("application_uuid")
+        application_uid = (
+            self.context["request"].parser_context.get("kwargs").get("application_uid")
         )
-        application = Application.objects.get(uuid=application_uuid)
+        application = Application.objects.get(uuid=application_uid)
         feedback = Feedback.objects.create(application=application, **validated_data)
         return feedback
 
     def validate(self, data):
-        print(self.context["request"].parser_context)
-
-        application_uuid = (
-            self.context["request"].parser_context.get("kwargs").get("application_uuid")
+        application_uid = (
+            self.context["request"].parser_context.get("kwargs").get("application_uid")
         )
 
         try:
-            application = Application.objects.get(uuid=application_uuid)
-            print("app", application)
+            application = Application.objects.get(uuid=application_uid)
         except Application.DoesNotExist:
             raise serializers.ValidationError(
                 "Application with this ID does not exist."

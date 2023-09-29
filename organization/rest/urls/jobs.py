@@ -7,7 +7,7 @@ urlpatterns = [
     path("/<uuid:uuid>", job.JobDetailView.as_view()),
     path("/applications", job.AppliedJobsView.as_view()),
     path(
-        "/applications/<uuid:application_uuid>/feedback",
+        "/applications/<uuid:application_uid>/feedback",
         job.FeedbackListCreateView.as_view(),
     ),
 ]
