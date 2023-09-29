@@ -4,7 +4,6 @@ from django.utils.translation import gettext as _
 from common.base import BaseModel
 
 from core.managers import UserManager
-import uuid
 
 
 class User(AbstractBaseUser, BaseModel, PermissionsMixin):

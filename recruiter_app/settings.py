@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "core",
     "job",
     "organization",
+    "email_app",
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "sandbox.smtp.mailtrap.io"
+EMAIL_HOST_USER = "bfe4a4ae9cc95c"
+EMAIL_HOST_PASSWORD = "9d8bd3ecab20c9"
+EMAIL_PORT = "2525"

@@ -3,7 +3,6 @@ from common.base import BaseModel
 
 from core.models import User
 from organization.choices import RoleChoices
-import uuid
 
 
 class Organization(BaseModel):
