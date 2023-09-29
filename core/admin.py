@@ -8,17 +8,16 @@ from organization.models import Organization, OrganizationUser
 
 class UserAdmin(UserAdmin):
     model = User
-    list_display = ("email", "is_staff", "is_active", "created_at")
+    list_display = ("name", "email", "is_staff", "created_at")
     list_filter = (
         "email",
         "is_staff",
-        "is_active",
     )
     fieldsets = (
         (None, {"fields": ("name", "email", "password")}),
         (
             "Permissions",
-            {"fields": ("is_staff", "is_active")},
+            {"fields": ("is_staff", "status")},
         ),
     )
     add_fieldsets = (
@@ -33,7 +32,7 @@ class UserAdmin(UserAdmin):
                     "password2",
                     "phone",
                     "is_staff",
-                    "is_active",
+                    "status",
                 ),
             },
         ),
