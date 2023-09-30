@@ -31,7 +31,7 @@ class OrganizationDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         uid = self.kwargs.get("organization_uid")
-        object = self.queryset.get(uuid=uid)
+        object = self.queryset.get(uid=uid)
         return object
 
 

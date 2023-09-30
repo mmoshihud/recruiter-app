@@ -25,5 +25,5 @@ class OrganizationJobList(generics.ListAPIView):
 
     def get_queryset(self):
         organization_uid = self.kwargs.get("organization_uid")
-        organization = Organization.objects.get(uuid=organization_uid)
+        organization = Organization.objects.get(uid=organization_uid)
         return Job.objects.filter(organization_id=organization)

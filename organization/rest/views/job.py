@@ -32,7 +32,7 @@ class JobListCreateView(generics.ListCreateAPIView):
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    lookup_field = "uuid"
+    lookup_field = "uid"
     permission_classes = [IsOwnerAdminPermission]
 
     def get_permissions(self):

@@ -21,7 +21,7 @@ class OrganizationUserListCreateView(generics.ListCreateAPIView):
 class OrganizationUserDetailView(generics.RetrieveUpdateAPIView):
     queryset = OrganizationUser.objects.all()
     serializer_class = OrganizationUserUpdateSerializer
-    lookup_field = "uuid"
+    lookup_field = "uid"
 
     def get_permissions(self):
         if self.request.method == "GET":

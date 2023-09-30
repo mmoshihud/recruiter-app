@@ -13,7 +13,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = [
-            "uuid",
+            "uid",
             "name",
             "email",
             "phone",
@@ -40,7 +40,7 @@ class OrganizationUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizationUser
-        fields = ["uuid", "role", "user", "organization"]
+        fields = ["uid", "role", "user", "organization"]
 
     def create(self, validated_data):
         user = self.context["request"].user
@@ -74,7 +74,7 @@ class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
         fields = [
-            "uuid",
+            "uid",
             "title",
             "vacancy",
             "location",
@@ -111,7 +111,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
         fields = [
-            "uuid",
+            "uid",
             "name",
             "email",
             "resume_url",
@@ -126,13 +126,13 @@ class ApplicationSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
 
         existing_application = Application.objects.filter(
-            job__uuid=job_uid, applicant=user
+            job__uid=job_uid, applicant=user
         ).first()
         if existing_application:
             raise serializers.ValidationError("You have already applied for this job.")
 
         try:
-            job = Job.objects.get(uuid=job_uid)
+            job = Job.objects.get(uid=job_uid)
         except Job.DoesNotExist:
             raise serializers.ValidationError("Job does not exist.")
 
@@ -158,7 +158,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
         fields = [
-            "uuid",
+            "uid",
             "application",
             "feedback_description",
             "feedback_rating",
@@ -171,7 +171,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
         application_uid = (
             self.context["request"].parser_context.get("kwargs").get("application_uid")
         )
-        application = Application.objects.get(uuid=application_uid)
+        application = Application.objects.get(uid=application_uid)
         feedback = Feedback.objects.create(application=application, **validated_data)
         return feedback
 
@@ -181,7 +181,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
         )
 
         try:
-            application = Application.objects.get(uuid=application_uid)
+            application = Application.objects.get(uid=application_uid)
         except Application.DoesNotExist:
             raise serializers.ValidationError(
                 "Application with this ID does not exist."
@@ -210,7 +210,7 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = [
-            "uuid",
+            "uid",
             "name",
             "email",
             "phone",

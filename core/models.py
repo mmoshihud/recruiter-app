@@ -11,6 +11,7 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name"]
