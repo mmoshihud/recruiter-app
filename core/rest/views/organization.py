@@ -1,18 +1,20 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
 
 from organization.models import Organization
 from core.rest.permission import IsSuperAdmin
 
 from organization.rest.serializers.organization import (
+    OrganizationListSerializer,
     OrganizationSerializer,
-    OrganizationCreateSerializer,
 )
 
 
-class OrganizationListCreateView(generics.ListCreateAPIView):
+class PrivateOrganizationList(generics.ListCreateAPIView):
     queryset = Organization.objects.all()
-    serializer_class = OrganizationCreateSerializer
+    serializer_class = OrganizationListSerializer
 
     def get_permissions(self):
         if self.request.method == "POST":
@@ -20,17 +22,19 @@ class OrganizationListCreateView(generics.ListCreateAPIView):
         return [IsAuthenticated()]
 
 
-class OrganizationDetailView(generics.RetrieveUpdateDestroyAPIView):
+class PrivateOrganizationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Organization.objects.all()
-    serializer_class = OrganizationCreateSerializer
+    serializer_class = OrganizationListSerializer
     permission_classes = [IsSuperAdmin]
 
     def get_object(self):
         uid = self.kwargs.get("organization_uid")
-        object = self.queryset.get(uid=uid)
-        return object
+        try:
+            return Organization.objects.get(uid=uid)
+        except Organization.DoesNotExist:
+            raise ValidationError("Organization does not exist.")
 
 
-class OrganizationOnboardView(generics.CreateAPIView):
+class PrivateOrganizationOnboard(generics.CreateAPIView):
     serializer_class = OrganizationSerializer
     permission_classes = [IsSuperAdmin]

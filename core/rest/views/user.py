@@ -4,11 +4,11 @@ from core.rest.permission import IsSuperAdmin
 from core.rest.serializers.user import UserSerializer
 
 
-class UserCreateView(generics.CreateAPIView):
+class PublicUserCreate(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserList(generics.ListAPIView):
+class PrivateUserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsSuperAdmin]

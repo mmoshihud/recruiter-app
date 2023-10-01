@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from pickle import APPENDS
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,7 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "0ae6284a00698fdbb159cab148c27ec27b3c71b795ae96c89b308c0eb410bd09"
+SECRET_KEY = "9yt@-augzh9w3m)eys00yk$+z$7s@$v1)dugcsvz=y#)73#(sp"
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -137,7 +137,6 @@ EMAIL_HOST_USER = "bfe4a4ae9cc95c"
 EMAIL_HOST_PASSWORD = "9d8bd3ecab20c9"
 EMAIL_PORT = "2525"
 
-
 APPEND_SLASH = False
 
 AUTH_USER_MODEL = "core.User"
@@ -147,7 +146,6 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": True,
 }
-
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",

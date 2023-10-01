@@ -66,7 +66,7 @@ class OrganizationUserUpdateSerializer(serializers.ModelSerializer):
         return instance
 
 
-class OrganizationCreateSerializer(serializers.ModelSerializer):
+class OrganizationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = [

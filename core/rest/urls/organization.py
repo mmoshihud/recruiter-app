@@ -4,7 +4,7 @@ from core.rest.views import organization
 
 
 urlpatterns = [
-    path("", organization.OrganizationListCreateView.as_view()),
-    path("/<uuid:organization_uid>", organization.OrganizationDetailView.as_view()),
-    path("/onboard", organization.OrganizationOnboardView.as_view()),
+    path("", organization.PrivateOrganizationList.as_view()),
+    path("/<uuid:organization_uid>", organization.PrivateOrganizationDetail.as_view()),
+    path("/onboard", organization.PrivateOrganizationOnboard.as_view()),
 ]
