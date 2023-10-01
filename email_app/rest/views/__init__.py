@@ -24,25 +24,3 @@ class EmailView(generics.CreateAPIView):
         )
 
         return Response({"message": "Email sent successfully"})
-
-
-# def post(self, request, *args, **kwargs):
-#     serializer = EmailSerializer(data=request.data)
-
-#     if serializer.is_valid():
-#         subject = serializer.validated_data["subject"]
-#         message = serializer.validated_data["message"]
-#         recipient_list = serializer.validated_data["recipient_list"]
-
-#         # Send the email without a template
-#         send_mail(
-#             subject,
-#             message,
-#             "your_email@gmail.com",
-#             recipient_list,
-#             fail_silently=False,
-#         )
-
-#         return Response({"message": "Email sent successfully"})
-#     else:
-#         return Response(serializer.errors, status=400)

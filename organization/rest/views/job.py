@@ -3,7 +3,7 @@ from rest_framework import generics
 
 from core.rest.permission import IsOrganizationMember, IsOwnerAdminPermission
 from job.models import Application, Feedback, Job
-from organization.rest.serializers import (
+from organization.rest.serializers.job import (
     ApplicationSerializer,
     FeedbackSerializer,
     JobSerializer,
@@ -62,5 +62,10 @@ class AppliedJobsView(generics.ListAPIView):
 
 class FeedbackListCreateView(generics.ListCreateAPIView):
     queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+    permission_classes = [IsOrganizationMember]
+
+
+class FeedbackDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = FeedbackSerializer
     permission_classes = [IsOrganizationMember]

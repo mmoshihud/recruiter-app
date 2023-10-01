@@ -13,7 +13,6 @@ class Job(BaseModel):
     description = models.TextField(blank=True)
     requirements = models.TextField(blank=True)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
-    posting_date = models.DateTimeField(auto_now=True)
     expiration_date = models.DateTimeField(default=timezone.now)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     job_poster = models.ForeignKey(User, on_delete=models.CASCADE)

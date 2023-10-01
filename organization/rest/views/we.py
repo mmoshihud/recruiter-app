@@ -2,7 +2,8 @@ from rest_framework import generics
 from core.rest.permission import IsOrganizationMember, IsOwnerAdminPermission
 from organization.models import OrganizationUser
 
-from organization.rest.serializers import (
+
+from organization.rest.serializers.organization import (
     OrganizationUserSerializer,
     OrganizationUserUpdateSerializer,
 )
