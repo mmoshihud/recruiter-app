@@ -18,6 +18,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "phone",
             "description",
             "location",
+            "status",
             "created_at",
             "updated_at",
             "user",
@@ -52,7 +53,7 @@ class OrganizationUserSerializer(serializers.ModelSerializer):
         return organization_user
 
 
-class OrganizationUserUpdateSerializer(serializers.ModelSerializer):
+class OrganizationUserDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=False, read_only=True)
     organization = OrganizationSerializer(required=False, read_only=True)
 
@@ -76,6 +77,7 @@ class OrganizationListSerializer(serializers.ModelSerializer):
             "phone",
             "description",
             "location",
+            "status",
             "created_at",
             "updated_at",
         ]

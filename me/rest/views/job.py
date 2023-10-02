@@ -8,12 +8,12 @@ from organization.rest.serializers.job import JobSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
-class ApplyForJob(generics.CreateAPIView):
+class PrivateApplyForJob(generics.CreateAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated]
 
 
-class JobList(generics.ListAPIView):
+class PrivateJobList(generics.ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [IsNotOrganizationUser]

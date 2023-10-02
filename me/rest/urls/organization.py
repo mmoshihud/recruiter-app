@@ -4,9 +4,9 @@ from me.rest.views import organization
 
 
 urlpatterns = [
-    path("/organizations", organization.OrganizationList.as_view()),
+    path("/organizations", organization.PrivateOrganizationList.as_view()),
     path(
         "/organizations/<uuid:organization_uid>/jobs",
-        organization.OrganizationJobList.as_view(),
+        organization.PrivateOrganizationJobList.as_view(),
     ),
 ]

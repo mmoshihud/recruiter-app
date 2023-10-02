@@ -5,11 +5,11 @@ from organization.models import OrganizationUser
 
 from organization.rest.serializers.organization import (
     OrganizationUserSerializer,
-    OrganizationUserUpdateSerializer,
+    OrganizationUserDetailSerializer,
 )
 
 
-class OrganizationUserListCreateView(generics.ListCreateAPIView):
+class PrivateOrganizationUserList(generics.ListCreateAPIView):
     queryset = OrganizationUser.objects.all()
     serializer_class = OrganizationUserSerializer
 
@@ -19,9 +19,9 @@ class OrganizationUserListCreateView(generics.ListCreateAPIView):
         return [IsOrganizationMember()]
 
 
-class OrganizationUserDetailView(generics.RetrieveUpdateAPIView):
+class PrivateOrganizationUserDetail(generics.RetrieveUpdateAPIView):
     queryset = OrganizationUser.objects.all()
-    serializer_class = OrganizationUserUpdateSerializer
+    serializer_class = OrganizationUserDetailSerializer
     lookup_field = "uid"
 
     def get_permissions(self):

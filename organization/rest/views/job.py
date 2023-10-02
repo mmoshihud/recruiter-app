@@ -11,7 +11,7 @@ from organization.rest.serializers.job import (
 from organization.models import Organization, OrganizationUser
 
 
-class JobListCreateView(generics.ListCreateAPIView):
+class PrivateJobList(generics.ListCreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
 
@@ -29,7 +29,7 @@ class JobListCreateView(generics.ListCreateAPIView):
         return Job.objects.none()
 
 
-class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
+class PrivateJobDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     lookup_field = "uid"
@@ -43,7 +43,7 @@ class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
         return super().get_permissions()
 
 
-class AppliedJobsView(generics.ListAPIView):
+class PrivateAppliedJobsList(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [IsOrganizationMember]
 
@@ -60,7 +60,7 @@ class AppliedJobsView(generics.ListAPIView):
         return queryset
 
 
-class FeedbackListCreateView(generics.ListCreateAPIView):
+class PrivateFeedbackList(generics.ListCreateAPIView):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
     permission_classes = [IsOrganizationMember]

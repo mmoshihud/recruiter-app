@@ -4,6 +4,6 @@ from organization.rest.views import we
 
 
 urlpatterns = [
-    path("/users", we.OrganizationUserListCreateView.as_view()),
-    path("/users/<uuid:uid>", we.OrganizationUserDetailView.as_view()),
+    path("/users", we.PrivateOrganizationUserList.as_view()),
+    path("/users/<uuid:uid>", we.PrivateOrganizationUserDetail.as_view()),
 ]
