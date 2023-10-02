@@ -14,7 +14,7 @@ from rest_framework.exceptions import ValidationError
 
 
 class PrivateJobList(generics.ListCreateAPIView):
-    queryset = Job.objects.all()
+    queryset = Job.objects.filter()
     serializer_class = JobSerializer
 
     def get_permissions(self):
@@ -32,7 +32,7 @@ class PrivateJobList(generics.ListCreateAPIView):
 
 
 class PrivateJobDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Job.objects.all()
+    queryset = Job.objects.filter()
     serializer_class = JobSerializer
     lookup_field = "uid"
     permission_classes = [IsOwnerAdminPermission]
@@ -58,12 +58,12 @@ class PrivateAppliedJobsList(generics.ListAPIView):
             jobs = Job.objects.filter(organization=organization)
             queryset = Application.objects.filter(job__in=jobs)
         else:
-            queryset = Application.objects.none()
+            queryset = None
         return queryset
 
 
 class PrivateFeedbackList(generics.ListCreateAPIView):
-    queryset = Feedback.objects.all()
+    queryset = Feedback.objects.filter()
     serializer_class = FeedbackSerializer
     permission_classes = [IsOrganizationMember]
 

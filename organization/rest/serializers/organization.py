@@ -2,12 +2,13 @@ from rest_framework import serializers
 from core.models import User
 
 from core.rest.serializers.user import UserSerializer
+from organization.choices import RoleChoices
 from organization.models import Organization, OrganizationUser
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
     user = UserSerializer(write_only=True)
-    role = serializers.CharField(write_only=True)
+    role = serializers.ChoiceField(choices=RoleChoices.choices, write_only=True)
 
     class Meta:
         model = Organization

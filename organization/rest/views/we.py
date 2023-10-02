@@ -10,7 +10,7 @@ from organization.rest.serializers.organization import (
 
 
 class PrivateOrganizationUserList(generics.ListCreateAPIView):
-    queryset = OrganizationUser.objects.all()
+    queryset = OrganizationUser.objects.filter()
     serializer_class = OrganizationUserSerializer
 
     def get_permissions(self):
@@ -20,7 +20,7 @@ class PrivateOrganizationUserList(generics.ListCreateAPIView):
 
 
 class PrivateOrganizationUserDetail(generics.RetrieveUpdateAPIView):
-    queryset = OrganizationUser.objects.all()
+    queryset = OrganizationUser.objects.filter()
     serializer_class = OrganizationUserDetailSerializer
     lookup_field = "uid"
 

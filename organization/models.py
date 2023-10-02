@@ -19,7 +19,9 @@ class Organization(BaseModel):
 class OrganizationUser(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    role = models.CharField(max_length=10, choices=RoleChoices.choices)
+    role = models.CharField(
+        max_length=10, choices=RoleChoices.choices, default=RoleChoices.OWNER
+    )
 
     def __str__(self):
         return f"{self.user.email} - {self.role} at {self.organization}"

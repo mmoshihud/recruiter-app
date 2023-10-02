@@ -12,7 +12,7 @@ from organization.rest.serializers.organization import (
 
 
 class PrivateOrganizationList(generics.ListCreateAPIView):
-    queryset = Organization.objects.all()
+    queryset = Organization.objects.filter()
     serializer_class = OrganizationListSerializer
 
     def get_permissions(self):
@@ -22,7 +22,7 @@ class PrivateOrganizationList(generics.ListCreateAPIView):
 
 
 class PrivateOrganizationDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Organization.objects.all()
+    queryset = Organization.objects.filter()
     serializer_class = OrganizationListSerializer
     permission_classes = [IsSuperAdmin]
 

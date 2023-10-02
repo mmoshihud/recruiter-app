@@ -1,0 +1,27 @@
+from django.db import models
+
+
+class JobTypeChoices(models.TextChoices):
+    ACCOUNTING = "Accounting", "Accounting"
+    ADMINISTRATIVE = "Administrative", "Administrative"
+    ARTS = "Arts & Entertainment", "Arts & Entertainment"
+    CONSULTING = "Consulting", "Consulting"
+    CUSTOMER_SERVICE = "Customer Service", "Customer Service"
+    DESIGN = "Design", "Design"
+    EDUCATION = "Education", "Education"
+    ENGINEERING = "Engineering", "Engineering"
+    FINANCE = "Finance", "Finance"
+    HEALTH = "Health & Fitness", "Health & Fitness"
+    HOSPITALITY = "Hospitality", "Hospitality"
+    HUMAN_RESOURCES = "Human Resources", "Human Resources"
+    IT = "IT", "IT & Telecommunication"
+    LAW = "Law", "Law & Legal"
+    MANUFACTURING = "Manufacturing", "Manufacturing"
+    MARKETING = "Marketing", "Marketing"
+    MEDIA = "Media & Communication", "Media & Communication"
+    MEDICAL = "Medical", "Medical"
+    RETAIL = "Retail", "Retail"
+    SALES = "Sales", "Sales"
+    SCIENCE = "Science", "Science"
+    SOCIAL_SERVICES = "Social Services", "Social Services"
+    TRANSPORTATION = "Transportation", "Transportation"

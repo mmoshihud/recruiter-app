@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "organization",
     "email_app",
     "rest_framework_simplejwt",
+    "django_filters",
 ]
 
 MIDDLEWARE = [

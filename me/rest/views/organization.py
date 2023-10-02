@@ -7,19 +7,19 @@ from organization.rest.serializers.job import JobSerializer
 
 
 class PrivateOrganizationList(generics.ListAPIView):
-    queryset = Organization.objects.all()
+    queryset = Organization.objects.filter()
     serializer_class = OrganizationSerializer
     permission_classes = [IsNotOrganizationUser]
 
 
 class PrivateOrganizationDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Organization.objects.all()
+    queryset = Organization.objects.filter()
     serializer_class = OrganizationSerializer
     permission_classes = [IsNotOrganizationUser]
 
 
 class PrivateOrganizationJobList(generics.ListAPIView):
-    queryset = Job.objects.all()
+    queryset = Job.objects.filter()
     serializer_class = JobSerializer
     permission_classes = [IsNotOrganizationUser]
 

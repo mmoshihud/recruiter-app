@@ -3,11 +3,13 @@ from django.utils import timezone
 from common.base import BaseModel
 
 from core.models import User
+from job.choices import JobTypeChoices
 from organization.models import Organization
 
 
 class Job(BaseModel):
     title = models.CharField(max_length=255)
+    job_type = models.CharField(max_length=255, choices=JobTypeChoices.choices)
     vacancy = models.PositiveIntegerField()
     location = models.CharField(max_length=255)
     description = models.TextField(blank=True)

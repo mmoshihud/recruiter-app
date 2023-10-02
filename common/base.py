@@ -8,7 +8,7 @@ class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(
-        max_length=10, choices=StatusChoices.choices, default="Active"
+        max_length=10, choices=StatusChoices.choices, default=StatusChoices.ACTIVE
     )
 
     class Meta:
