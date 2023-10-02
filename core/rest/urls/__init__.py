@@ -4,8 +4,8 @@ from core.rest.views import user
 
 
 urlpatterns = [
-    path("/users", user.PrivateUserList.as_view()),
     path("/registration", user.PublicUserCreate.as_view()),
+    path("/users", include("core.rest.urls.user")),
     path("/token", include("core.rest.urls.auth")),
     path("/organizations", include("core.rest.urls.organization")),
 ]

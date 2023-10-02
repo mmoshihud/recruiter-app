@@ -14,14 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = [
-            "uid",
-            "name",
-            "email",
-            "password",
-            "phone",
-            "has_organization",
-        ]
+        fields = ["uid", "name", "email", "password", "phone", "has_organization"]
         extra_kwargs = {"password": {"write_only": True, "min_length": 6}}
 
     def create(self, validated_data):
@@ -30,3 +23,17 @@ class UserSerializer(serializers.ModelSerializer):
     @extend_schema_field(bool)
     def get_has_organization(self, obj):
         return OrganizationUser.objects.filter(user=obj).exists()
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["uid", "name", "email", "password", "phone"]
+        extra_kwargs = {"password": {"write_only": True, "min_length": 6}}
+
+    def update(self, instance, validated_data):
+        # Handle password hashing if 'password' is present in the data
+        if "password" in validated_data:
+            password = validated_data.pop("password")
+            instance.set_password(password)  # Hash the password
+        return super().update(instance, validated_data)

@@ -97,3 +97,16 @@ class FeedbackSerializer(serializers.ModelSerializer):
         application_data = ApplicationSerializer(instance.application).data
         data["application_data"] = application_data
         return data
+
+
+class FeedbackDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = [
+            "uid",
+            "feedback_description",
+            "feedback_rating",
+            "status",
+            "created_at",
+            "updated_at",
+        ]

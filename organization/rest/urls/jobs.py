@@ -10,4 +10,8 @@ urlpatterns = [
         "/applications/<uuid:application_uid>/feedback",
         job.PrivateFeedbackList.as_view(),
     ),
+    path(
+        "/applications/<uuid:application_uid>/feedback/<uuid:feedback_uid>",
+        job.PrivateFeedbackDetail.as_view(),
+    ),
 ]

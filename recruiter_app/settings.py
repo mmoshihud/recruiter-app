@@ -141,6 +141,10 @@ APPEND_SLASH = False
 
 AUTH_USER_MODEL = "core.User"
 
+# AUTHENTICATION_BACKENDS = [
+#     "core.backends.EmailPhoneUsernameAuthenticationBackend",
+# ]
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),

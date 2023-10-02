@@ -14,7 +14,7 @@ class UserAdmin(UserAdmin):
         "is_staff",
     )
     fieldsets = (
-        (None, {"fields": ("name", "email", "password")}),
+        (None, {"fields": ("name", "email", "phone", "password")}),
         (
             "Permissions",
             {"fields": ("is_staff", "status")},

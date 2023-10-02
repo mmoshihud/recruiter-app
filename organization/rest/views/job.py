@@ -5,10 +5,12 @@ from core.rest.permission import IsOrganizationMember, IsOwnerAdminPermission
 from job.models import Application, Feedback, Job
 from organization.rest.serializers.job import (
     ApplicationSerializer,
+    FeedbackDetailSerializer,
     FeedbackSerializer,
     JobSerializer,
 )
 from organization.models import Organization, OrganizationUser
+from rest_framework.exceptions import ValidationError
 
 
 class PrivateJobList(generics.ListCreateAPIView):
@@ -66,6 +68,21 @@ class PrivateFeedbackList(generics.ListCreateAPIView):
     permission_classes = [IsOrganizationMember]
 
 
-class FeedbackDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = FeedbackSerializer
+class PrivateFeedbackDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = FeedbackDetailSerializer
     permission_classes = [IsOrganizationMember]
+
+    def get_object(self):
+        application_uid = self.kwargs.get("application_uid")
+        feedback_uid = self.kwargs.get("feedback_uid")
+
+        try:
+            application = Application.objects.get(uid=application_uid)
+        except Application.DoesNotExist:
+            raise ValidationError("Application does not exist.")
+
+        try:
+            feedback = Feedback.objects.get(uid=feedback_uid, application=application)
+            return feedback
+        except Feedback.DoesNotExist:
+            raise ValidationError("Feedback does not exist for this application.")
