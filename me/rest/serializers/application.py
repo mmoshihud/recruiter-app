@@ -15,7 +15,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
             "resume_url",
             "user_data",
             "application_date",
-            "status",
             "created_at",
             "updated_at",
         ]

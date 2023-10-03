@@ -1,4 +1,5 @@
 from rest_framework import generics
+from common.choices import StatusChoices
 from core.rest.permission import IsNotOrganizationUser
 from organization.models import Organization
 from job.models import Job
@@ -16,6 +17,10 @@ class PrivateOrganizationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Organization.objects.filter()
     serializer_class = OrganizationSerializer
     permission_classes = [IsNotOrganizationUser]
+
+    def perform_destroy(self, instance):
+        instance.status = StatusChoices.REMOVED
+        instance.save()
 
 
 class PrivateOrganizationJobList(generics.ListAPIView):

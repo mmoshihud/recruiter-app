@@ -16,15 +16,16 @@ class JobSerializer(serializers.ModelSerializer):
         fields = [
             "uid",
             "title",
+            "job_type",
             "vacancy",
             "location",
             "description",
             "requirements",
             "salary",
             "expiration_date",
+            "status",
             "job_poster",
             "organization",
-            "status",
             "created_at",
             "updated_at",
         ]
@@ -54,7 +55,6 @@ class FeedbackSerializer(serializers.ModelSerializer):
             "uid",
             "feedback_description",
             "feedback_rating",
-            "status",
             "created_at",
             "updated_at",
             "application_data",
@@ -106,7 +106,24 @@ class FeedbackDetailSerializer(serializers.ModelSerializer):
             "uid",
             "feedback_description",
             "feedback_rating",
-            "status",
+            "created_at",
+            "updated_at",
+        ]
+
+
+class JobListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = [
+            "uid",
+            "title",
+            "job_type",
+            "vacancy",
+            "location",
+            "description",
+            "requirements",
+            "salary",
+            "expiration_date",
             "created_at",
             "updated_at",
         ]

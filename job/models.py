@@ -42,3 +42,8 @@ class Feedback(BaseModel):
 
     def __str__(self):
         return f"{self.application.applicant.name} - Applied at {self.application.job.organization} in {self.application.job.title} Position"
+
+
+class FavoriteList(BaseModel):
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)

@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
+from common.choices import StatusChoices
 
 from core.rest.permission import IsOrganizationMember, IsOwnerAdminPermission
 from job.models import Application, Feedback, Job
@@ -43,6 +44,10 @@ class PrivateJobDetail(generics.RetrieveUpdateDestroyAPIView):
         elif self.request.method in ("PUT", "PATCH", "DELETE"):
             return [IsOwnerAdminPermission()]
         return super().get_permissions()
+
+    def perform_destroy(self, instance):
+        instance.status = StatusChoices.REMOVED
+        instance.save()
 
 
 class PrivateAppliedJobsList(generics.ListAPIView):
