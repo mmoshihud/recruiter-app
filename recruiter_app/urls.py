@@ -24,4 +24,5 @@ urlpatterns = [
     path("api/organizations", include("core.rest.urls.organization")),
     path("api/we", include("organization.rest.urls")),
     path("api/me", include("me.rest.urls")),
+    path("api/messages", include("messaging.rest.urls")),
 ]
