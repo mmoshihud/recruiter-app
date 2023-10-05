@@ -14,6 +14,27 @@ from organization.models import Organization, OrganizationUser
 from rest_framework.exceptions import ValidationError
 
 
+class PrivateOrganizationJobList(generics.ListAPIView):
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+        organization_uid = self.kwargs["organization_uid"]
+
+        OrganizationUser.objects.filter(user=self.request.user).update(is_default=False)
+
+        organization_user = get_object_or_404(
+            OrganizationUser, user=self.request.user, organization__uid=organization_uid
+        )
+        organization_user.is_default = True
+        organization_user.save()
+
+        organization = self.request.user.get_organization()
+
+        if organization:
+            return Job.objects.filter(organization=organization)
+        return None
+
+
 class PrivateJobList(generics.ListCreateAPIView):
     queryset = Job.objects.filter()
     serializer_class = JobSerializer
@@ -25,11 +46,11 @@ class PrivateJobList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        organization = Organization.objects.filter(organizationuser__user=user).first()
+        organization = user.get_organization()
 
         if organization:
             return Job.objects.filter(organization=organization)
-        return Job.objects.none()
+        return None
 
 
 class PrivateJobDetail(generics.RetrieveUpdateDestroyAPIView):

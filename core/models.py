@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 from common.base import BaseModel
 
 from core.managers import UserManager
+from organization.models import OrganizationUser
 
 
 class User(AbstractBaseUser, BaseModel, PermissionsMixin):
@@ -17,6 +18,18 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
     REQUIRED_FIELDS = ["name"]
 
     objects = UserManager()
+
+    def get_organization(self):
+        try:
+            organization_user = self.organizationuser_set.filter(
+                is_default=True
+            ).first()
+
+            if organization_user:
+                return organization_user.organization
+            return None
+        except OrganizationUser.DoesNotExist:
+            return None
 
     def __str__(self):
         return self.email

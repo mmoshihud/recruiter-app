@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "9yt@-augzh9w3m)eys00yk$+z$7s@$v1)dugcsvz=y#)73#(sp"
+SECRET_KEY = "9vq95&63pl%ypn_@g%wo#$(wsjppe921cce%ujangz97-i1k&&!"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -147,8 +147,8 @@ AUTH_USER_MODEL = "core.User"
 # ]
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": True,
 }
 

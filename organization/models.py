@@ -1,7 +1,6 @@
 from django.db import models
-from common.base import BaseModel
 
-from core.models import User
+from common.base import BaseModel
 from organization.choices import RoleChoices
 
 
@@ -17,11 +16,12 @@ class Organization(BaseModel):
 
 
 class OrganizationUser(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey("core.User", on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     role = models.CharField(
         max_length=10, choices=RoleChoices.choices, default=RoleChoices.OWNER
     )
+    is_default = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.user.email} - {self.role} at {self.organization}"
