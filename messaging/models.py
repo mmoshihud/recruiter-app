@@ -10,6 +10,9 @@ class Inbox(BaseModel):
         User, on_delete=models.CASCADE, related_name="other_user_inbox"
     )
 
+    def __str__(self):
+        return f"From {self.user} to {self.other_user}"
+
 
 class Message(BaseModel):
     inbox = models.ForeignKey(Inbox, on_delete=models.CASCADE)

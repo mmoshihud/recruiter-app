@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from core.models import User
 from messaging.models import Inbox, Message
+from django.db.models import Q
 
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -21,9 +22,11 @@ class MessageSerializer(serializers.ModelSerializer):
                 {"receiver_email": "Receiver with this email does not exist."}
             )
 
-        existing_inbox = Inbox.objects.filter(user=sender, other_user=receiver).first()
+        existing_inbox = Inbox.objects.filter(
+            user=sender, other_user=receiver
+        ) | Inbox.objects.filter(other_user=sender, user=receiver)
 
-        if existing_inbox:
+        if existing_inbox.first():
             inbox = existing_inbox
         else:
             inbox = Inbox.objects.create(user=sender, other_user=receiver)
@@ -40,10 +43,10 @@ class MessageSerializer(serializers.ModelSerializer):
 class PrivateInboxListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inbox
-        fields = "__all__"
+        fields = ["user", "other_user"]
 
 
 class PrivateInboxMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = "__all__"
+        fields = ["sender", "receiver", "content"]
