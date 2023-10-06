@@ -5,7 +5,6 @@ from rest_framework import serializers
 from organization.models import OrganizationUser
 from drf_spectacular.utils import extend_schema_field
 
-
 User = get_user_model()
 
 

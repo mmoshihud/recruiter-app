@@ -23,7 +23,7 @@ class PrivateApplyForJob(generics.CreateAPIView):
 class PrivateJobList(generics.ListAPIView):
     queryset = Job.objects.filter()
     serializer_class = JobSerializer
-    # permission_classes = [IsNotOrganizationUser]
+    permission_classes = [IsNotOrganizationUser]
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ["job_type"]
     search_fields = ["title"]
@@ -39,10 +39,7 @@ class PrivateFavoriteList(generics.ListAPIView):
     permission_classes = [IsNotOrganizationUser]
 
     def get_queryset(self):
-        # Get the logged-in user
         user = self.request.user
-
-        # Filter favorite job entries for the current user
         queryset = FavoriteList.objects.filter(applicant=user)
 
         return queryset

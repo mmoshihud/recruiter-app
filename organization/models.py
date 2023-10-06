@@ -10,6 +10,13 @@ class Organization(BaseModel):
     phone = models.CharField(max_length=255)
     description = models.TextField()
     location = models.CharField(max_length=255)
+    mother_organization = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="child_organizations",
+    )
 
     def __str__(self):
         return self.name

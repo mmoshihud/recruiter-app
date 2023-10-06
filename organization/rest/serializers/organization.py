@@ -1,3 +1,4 @@
+from attr import field
 from rest_framework import serializers
 from core.models import User
 
@@ -82,3 +83,9 @@ class OrganizationListSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+class OrganizationChildSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = "__all__"

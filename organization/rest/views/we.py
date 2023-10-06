@@ -4,6 +4,7 @@ from organization.models import OrganizationUser
 
 
 from organization.rest.serializers.organization import (
+    OrganizationChildSerializer,
     OrganizationUserSerializer,
     OrganizationUserDetailSerializer,
 )
@@ -30,3 +31,7 @@ class PrivateOrganizationUserDetail(generics.RetrieveUpdateAPIView):
         elif self.request.method == "PUT" or self.request.method == "PATCH":
             return [IsOwnerAdminPermission()]
         return super().get_permissions()
+
+
+class PrivateChildOrganizationList(generics.CreateAPIView):
+    serializer_class = OrganizationChildSerializer

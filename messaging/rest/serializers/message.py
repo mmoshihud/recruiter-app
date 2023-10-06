@@ -6,6 +6,9 @@ from django.db.models import Q
 
 class MessageSerializer(serializers.ModelSerializer):
     receiver_email = serializers.EmailField(write_only=True)
+    # receiver_email = serializers.ListField(
+    #     child=serializers.EmailField(), write_only=True
+    # )
 
     class Meta:
         model = Message
@@ -15,6 +18,8 @@ class MessageSerializer(serializers.ModelSerializer):
         sender = self.context["request"].user
 
         receiver_email = validated_data.get("receiver_email")
+        # receiver_email = validated_data.pop("receiver_emails", [])
+
         try:
             receiver = User.objects.get(email=receiver_email)
         except User.DoesNotExist:
@@ -23,10 +28,10 @@ class MessageSerializer(serializers.ModelSerializer):
             )
 
         existing_inbox = Inbox.objects.filter(
-            user=sender, other_user=receiver
-        ) | Inbox.objects.filter(other_user=sender, user=receiver)
+            Q(user=sender, other_user=receiver) | Q(user=receiver, other_user=sender)
+        ).first()
 
-        if existing_inbox.first():
+        if existing_inbox:
             inbox = existing_inbox
         else:
             inbox = Inbox.objects.create(user=sender, other_user=receiver)
@@ -43,7 +48,7 @@ class MessageSerializer(serializers.ModelSerializer):
 class PrivateInboxListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inbox
-        fields = ["user", "other_user"]
+        fields = ["uid", "user", "other_user"]
 
 
 class PrivateInboxMessageSerializer(serializers.ModelSerializer):
