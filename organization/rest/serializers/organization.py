@@ -87,12 +87,6 @@ class OrganizationListSerializer(serializers.ModelSerializer):
         ]
 
 
-class OrganizationChildSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Organization
-        fields = "__all__"
-
-
 class MessageThreadList(serializers.ModelSerializer):
     class Meta:
         model = Thread
@@ -116,3 +110,17 @@ class MessageList(serializers.ModelSerializer):
             **validated_data
         )
         return create_thread
+
+
+# class OrganizationChildSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Organization
+#         fields = "__all__"
+
+#     def create(self, validated_data):
+#         user = self.context["request"].user
+#         organization = Organization.objects.filter(organizationuser__user=user).first()
+#         if organization:
+#             parent_organization = Organization.objects.get(uid=organization.uid)
+#             validated_data["parent_organization"] = parent_organization
+#         return Organization.objects.create(**validated_data)

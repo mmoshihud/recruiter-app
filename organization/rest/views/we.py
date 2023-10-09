@@ -1,15 +1,11 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from core.rest.permission import IsOrganizationMember, IsOwnerAdminPermission
-from messaging.choices import KindChoices
 from messaging.models import Thread
 from organization.models import Organization, OrganizationUser
-
 
 from organization.rest.serializers.organization import (
     MessageList,
     MessageThreadList,
-    OrganizationChildSerializer,
     OrganizationUserSerializer,
     OrganizationUserDetailSerializer,
 )
@@ -38,20 +34,15 @@ class PrivateOrganizationUserDetail(generics.RetrieveUpdateAPIView):
         return super().get_permissions()
 
 
-class PrivateChildOrganizationList(generics.CreateAPIView):
-    serializer_class = OrganizationChildSerializer
-
-
 class PrivateMessageList(generics.ListAPIView):
     serializer_class = MessageThreadList
 
     def get_queryset(self):
         user = self.request.user
         organization = Organization.objects.filter(organizationuser__user=user).first()
-        threads = Thread.objects.filter(
-            organization=organization, kind=KindChoices.PARENT
-        )
-        return threads
+        threads = Thread.objects.filter(organization=organization)
+        last_message = threads.first()
+        return [last_message] if last_message else []
 
 
 class PrivateMessageDetail(generics.ListCreateAPIView):
@@ -61,5 +52,22 @@ class PrivateMessageDetail(generics.ListCreateAPIView):
         thread_uid = self.kwargs["uid"]
         thread = Thread.objects.get(uid=thread_uid)
         author = thread.author
-        messages = Thread.objects.filter(author=author)
+        organization = thread.organization
+        messages = Thread.objects.filter(author=author) | Thread.objects.filter(
+            organization=organization
+        )
         return messages
+
+
+# class PrivateChildOrganizationList(generics.ListCreateAPIView):
+#     serializer_class = OrganizationChildSerializer
+
+#     def get_queryset(self):
+#         user = self.context["request"].user
+#         organization = Organization.objects.filter(organizationuser__user=user).first()
+#         if organization:
+#             # Filter the queryset to only show child organizations for the current organization.
+#             return Organization.objects.filter(parent_organization_id=organization)
+#         else:
+#             # If no parent_org_id is provided, return all organizations.
+#             return None
