@@ -5,6 +5,7 @@ from messaging.rest.serializers.message import (
     MessageSerializer,
     PrivateInboxListSerializer,
     PrivateInboxMessageSerializer,
+    PrivateThreadSerializer,
 )
 from rest_framework.validators import ValidationError
 
@@ -36,3 +37,7 @@ class PrivateMessageDetail(generics.ListAPIView):
         return Message.objects.filter(
             inbox=inbox, sender=user
         ) | Message.objects.filter(inbox=inbox, receiver=user)
+
+
+class PrivateThreadCreate(generics.CreateAPIView):
+    serializer_class = PrivateThreadSerializer

@@ -3,6 +3,8 @@ from rest_framework import serializers
 from core.models import User
 
 from core.rest.serializers.user import UserSerializer
+from messaging.choices import KindChoices
+from messaging.models import Thread
 from organization.choices import RoleChoices
 from organization.models import Organization, OrganizationUser
 
@@ -89,3 +91,28 @@ class OrganizationChildSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = "__all__"
+
+
+class MessageThreadList(serializers.ModelSerializer):
+    class Meta:
+        model = Thread
+        fields = "__all__"
+
+
+class MessageList(serializers.ModelSerializer):
+    class Meta:
+        model = Thread
+        fields = ["content"]
+
+    def create(self, validated_data):
+        sender = self.context["request"].user
+        thread_uid = self.context["request"].parser_context.get("kwargs").get("uid")
+        thread = Thread.objects.get(uid=thread_uid)
+        create_thread = Thread.objects.create(
+            parent=thread,
+            kind=KindChoices.CHILD,
+            author=sender,
+            organization=thread.organization,
+            **validated_data
+        )
+        return create_thread

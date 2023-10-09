@@ -1,9 +1,14 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from core.rest.permission import IsOrganizationMember, IsOwnerAdminPermission
-from organization.models import OrganizationUser
+from messaging.choices import KindChoices
+from messaging.models import Thread
+from organization.models import Organization, OrganizationUser
 
 
 from organization.rest.serializers.organization import (
+    MessageList,
+    MessageThreadList,
     OrganizationChildSerializer,
     OrganizationUserSerializer,
     OrganizationUserDetailSerializer,
@@ -35,3 +40,26 @@ class PrivateOrganizationUserDetail(generics.RetrieveUpdateAPIView):
 
 class PrivateChildOrganizationList(generics.CreateAPIView):
     serializer_class = OrganizationChildSerializer
+
+
+class PrivateMessageList(generics.ListAPIView):
+    serializer_class = MessageThreadList
+
+    def get_queryset(self):
+        user = self.request.user
+        organization = Organization.objects.filter(organizationuser__user=user).first()
+        threads = Thread.objects.filter(
+            organization=organization, kind=KindChoices.PARENT
+        )
+        return threads
+
+
+class PrivateMessageDetail(generics.ListCreateAPIView):
+    serializer_class = MessageList
+
+    def get_queryset(self):
+        thread_uid = self.kwargs["uid"]
+        thread = Thread.objects.get(uid=thread_uid)
+        author = thread.author
+        messages = Thread.objects.filter(author=author)
+        return messages
