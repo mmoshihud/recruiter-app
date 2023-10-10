@@ -47,9 +47,3 @@ class Feedback(BaseModel):
 class FavoriteList(BaseModel):
     applicant = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-
-
-# class Notification(BaseModel):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-#     is_read = models.BooleanField(default=False)
