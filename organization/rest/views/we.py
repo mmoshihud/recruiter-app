@@ -4,8 +4,8 @@ from messaging.models import Thread
 from organization.models import Organization, OrganizationUser
 
 from organization.rest.serializers.organization import (
-    MessageList,
-    MessageThreadList,
+    PrivateMessageList,
+    PrivateMessageThreadList,
     OrganizationUserSerializer,
     OrganizationUserDetailSerializer,
 )
@@ -34,8 +34,8 @@ class PrivateOrganizationUserDetail(generics.RetrieveUpdateAPIView):
         return super().get_permissions()
 
 
-class PrivateMessageList(generics.ListAPIView):
-    serializer_class = MessageThreadList
+class PrivatePrivateMessageList(generics.ListAPIView):
+    serializer_class = PrivateMessageThreadList
 
     def get_queryset(self):
         user = self.request.user
@@ -46,7 +46,7 @@ class PrivateMessageList(generics.ListAPIView):
 
 
 class PrivateMessageDetail(generics.ListCreateAPIView):
-    serializer_class = MessageList
+    serializer_class = PrivateMessageList
 
     def get_queryset(self):
         thread_uid = self.kwargs["uid"]

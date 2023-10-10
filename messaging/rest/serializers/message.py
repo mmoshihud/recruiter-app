@@ -6,9 +6,13 @@ from organization.models import Organization
 
 
 class PrivateThreadSerializer(serializers.ModelSerializer):
+    author = serializers.SerializerMethodField()
+    organization = serializers.SerializerMethodField()
+
     class Meta:
         model = Thread
-        fields = ["uid", "content"]
+        fields = ["uid", "kind", "author", "content", "organization", "is_read"]
+        read_only_fields = ["author", "organization"]
 
     def create(self, validated_data):
         sender = self.context["request"].user
@@ -44,8 +48,25 @@ class PrivateThreadSerializer(serializers.ModelSerializer):
             )
             return thread
 
+    def get_author(self, obj):
+        return obj.author.name
+
+    def get_organization(self, obj):
+        return obj.organization.name
+
 
 class PrivateThreadListSerializer(serializers.ModelSerializer):
+    organization = serializers.SerializerMethodField()
+
     class Meta:
         model = Thread
-        fields = "__all__"
+        fields = ["organization", "content", "is_read", "created_at"]
+
+    def get_organization(self, obj):
+        return obj.organization.name
+
+
+class PrivatePrivateMessageListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Thread
+        fields = ["content", "is_read", "created_at"]

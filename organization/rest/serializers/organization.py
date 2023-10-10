@@ -1,4 +1,3 @@
-from attr import field
 from rest_framework import serializers
 from core.models import User
 
@@ -87,16 +86,21 @@ class OrganizationListSerializer(serializers.ModelSerializer):
         ]
 
 
-class MessageThreadList(serializers.ModelSerializer):
+class PrivateMessageThreadList(serializers.ModelSerializer):
+    author = serializers.SerializerMethodField()
+
     class Meta:
         model = Thread
-        fields = "__all__"
+        fields = ["uid", "author", "content", "is_read", "created_at"]
+
+    def get_author(self, obj):
+        return obj.author.name
 
 
-class MessageList(serializers.ModelSerializer):
+class PrivateMessageList(serializers.ModelSerializer):
     class Meta:
         model = Thread
-        fields = ["content"]
+        fields = ["content", "is_read", "created_at"]
 
     def create(self, validated_data):
         sender = self.context["request"].user

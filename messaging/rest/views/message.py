@@ -2,6 +2,7 @@ from messaging.models import Thread
 from rest_framework import generics
 from messaging.choices import KindChoices
 from messaging.rest.serializers.message import (
+    PrivatePrivateMessageListSerializer,
     PrivateThreadSerializer,
     PrivateThreadListSerializer,
 )
@@ -22,7 +23,7 @@ class PrivateThreadList(generics.ListAPIView):
 
 
 class PrivateThreadDetail(generics.ListAPIView):
-    serializer_class = PrivateThreadListSerializer
+    serializer_class = PrivatePrivateMessageListSerializer
 
     def get_queryset(self):
         thread_uid = self.kwargs["thread_uid"]
