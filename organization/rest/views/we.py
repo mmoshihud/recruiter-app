@@ -34,8 +34,8 @@ class PrivateOrganizationUserDetail(generics.RetrieveUpdateAPIView):
         return super().get_permissions()
 
 
-class PrivatePrivateMessageList(generics.ListAPIView):
-    serializer_class = PrivateMessageThreadList
+class PrivatePrivateMessageList(generics.ListCreateAPIView):
+    serializer_class = PrivateMessageThreadList  # list serializer ==message cross
 
     def get_queryset(self):
         user = self.request.user
@@ -44,13 +44,15 @@ class PrivatePrivateMessageList(generics.ListAPIView):
         last_message = threads.first()
         return [last_message] if last_message else []
 
+    # perform create or serializer create
 
-class PrivateMessageDetail(generics.ListCreateAPIView):
-    serializer_class = PrivateMessageList
+
+class PrivateMessageDetail(generics.ListCreateAPIView):  # ok
+    serializer_class = PrivateMessageList  # detail serializer
 
     def get_queryset(self):
         thread_uid = self.kwargs["uid"]
-        thread = Thread.objects.get(uid=thread_uid)
+        thread = Thread.objects.get(uid=thread_uid)  # try catch
         author = thread.author
         organization = thread.organization
         messages = Thread.objects.filter(author=author) | Thread.objects.filter(

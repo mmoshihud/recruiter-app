@@ -4,7 +4,11 @@ from common.base import BaseModel
 
 from core.models import User
 from job.choices import JobTypeChoices
+from notification.models import Notification
 from organization.models import Organization
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Job(BaseModel):
@@ -47,3 +51,10 @@ class Feedback(BaseModel):
 class FavoriteList(BaseModel):
     applicant = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+
+
+@receiver(post_save, sender=Job)
+def call_job_api(sender, instance, **kwargs):
+    message = "Check out " + instance.title + " posted on " + instance.organization.name
+    notification = Notification.objects.create(job=instance, message=message)
+    return notification

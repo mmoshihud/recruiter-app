@@ -55,18 +55,24 @@ class PrivateThreadSerializer(serializers.ModelSerializer):
         return obj.organization.name
 
 
-class PrivateThreadListSerializer(serializers.ModelSerializer):
-    organization = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Thread
-        fields = ["organization", "content", "is_read", "created_at"]
-
-    def get_organization(self, obj):
-        return obj.organization.name
-
-
 class PrivatePrivateMessageListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thread
         fields = ["content", "is_read", "created_at"]
+        read_only_fields = ["is_read"]
+
+    def create(self, validated_data):
+        sender = self.context["request"].user
+        thread_uid = (
+            self.context["request"].parser_context.get("kwargs").get("thread_uid")
+        )
+        thread = Thread.objects.get(uid=thread_uid)
+
+        threads = Thread.objects.create(
+            parent=thread.parent,
+            kind=KindChoices.CHILD,
+            author=sender,
+            organization=thread.organization,
+            **validated_data
+        )
+        return threads
