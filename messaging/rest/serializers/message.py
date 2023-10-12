@@ -58,7 +58,7 @@ class PrivateThreadSerializer(serializers.ModelSerializer):
 class PrivatePrivateMessageListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thread
-        fields = ["content", "is_read", "created_at"]
+        fields = ["uid", "content", "is_read", "created_at"]
         read_only_fields = ["is_read"]
 
     def create(self, validated_data):
@@ -69,7 +69,7 @@ class PrivatePrivateMessageListSerializer(serializers.ModelSerializer):
         thread = Thread.objects.get(uid=thread_uid)
 
         threads = Thread.objects.create(
-            parent=thread.parent,
+            parent=thread.parent if thread.parent else thread,
             kind=KindChoices.CHILD,
             author=sender,
             organization=thread.organization,
